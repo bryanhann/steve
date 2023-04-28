@@ -1,0 +1,52 @@
+#/bin/sh
+
+_export() { export $1=$2; }
+
+# Set general gloal environment variables
+
+[ "${STEVE_FIRST}" == "" ] && {
+    echo FIRST RUN OF COMMON
+    _export STEVE_FIRST       1
+    _export STEVE_DOTS        ${STEVE}/.dots
+    _export STEVE_BIN         ${STEVE}/.bin
+    _export PATH              $PATH:${STEVE_BIN}
+    _export STEVE_BCH_HISTORY bch.history
+}
+
+_clone () {
+    local GITHUB=git@github.com:bryanhann
+    local REPOS=${STEVE}/repos
+    local src=${GITHUB}/$1
+    local dst=${REPOS}/$1
+    [ -d $dst ] || git clone -b steve $src $dst
+    [ -d $dst ] || git clone $src $dst
+}
+
+# Clone personal repos
+
+_clone $STEVE_BCH_HISTORY
+_clone lbin.bch.hansel
+_clone blessed.zjot
+_clone blessed.monty
+_clone blessed.bch
+
+# Add to PATH every folder named "bin.bh*" under repos
+
+#for bin in $(find /Users/bch/.steve -name "bin.bh*"); do
+for bin in $(find ${STEVE} -name "bin.bh*"); do
+  eval `steve.path --export add $bin`
+done
+
+# Monty
+
+monty () {
+    export STEVE_FLAG_MONTY=1
+    source bh.monty.activate
+}
+
+[ "$STEVE_FLAG_MONTY" == "" ] && {
+    echo To activate monty, type 'monty'
+} || {
+    monty
+}
+alias .z="bh.bch.jot new"

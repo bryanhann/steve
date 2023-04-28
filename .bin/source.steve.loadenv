@@ -1,0 +1,7 @@
+target=${STEVE_REPOS}/$1/env.py
+[ -f $target ] && {
+    echo steve.activate.loadenv: load $target
+    eval `$target`
+} || {
+    echo steve.activate.loadenv: skip $target
+}

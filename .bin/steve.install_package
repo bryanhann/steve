@@ -1,0 +1,7 @@
+#/bin/bash
+src=${STEVE_GITHUB}/$1
+dst=${STEVE_REPOS}/$1
+[ -d $dst ] && echo "package '$1' aleady cloned" && exit
+echo "cloning package '$1'"
+git clone $src $dst
+

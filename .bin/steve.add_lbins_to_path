@@ -1,0 +1,9 @@
+for lbin in $(find /Users/bch/.steve/repos -name steve.bin); do
+  eval `steve.path --export add $lbin`
+  echo
+done
+steve.path list
+#for path in $(ls $STEVE_REPOS); do 
+#    root=$STEVE_REPOS/$path
+#    echo $root
+#done
