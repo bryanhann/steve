@@ -2,8 +2,8 @@
 from pathlib import Path
 STEVE=Path(__file__).absolute().parent
 
-if not STEVE==Path.home()/'.steve':
-    print( 'can install only to ~/.steve' )
+if not STEVE==Path.home()/'.__STEVE__':
+    print( 'can install only to ~/.__STEVE__' )
     exit()
 
 MAGIC='#magic_python_98745'
