@@ -1,3 +1,4 @@
-[ "$1" == ""     ] && $0.d/help && exit
-[ ! -f "$0.d/$1" ] && echo "unknown: $1 -- try steve help" && exit
-echo $0.d/$*
+echo 'THE STEVE COMMAND SUITE:'
+for path in $(ls $(dirname $0)/steve.*); do
+    echo "    $(basename $path)"
+done

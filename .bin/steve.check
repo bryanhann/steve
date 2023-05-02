@@ -1,0 +1,12 @@
+echo THE FOLLOWING HAVE MODIFICATIONS:
+for base in $( \
+        steve.hansel.bases4root4tag \
+        ${STEVE} \
+        is-git-repo \
+); 
+do
+   pushd $base > /dev/null
+    [[ $(git status  -s) ]] && echo $base
+    popd > /dev/null
+done
+

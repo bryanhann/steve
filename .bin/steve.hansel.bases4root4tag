@@ -1,0 +1,6 @@
+root=$1 # root folder to start search
+tag=$2 # name of tag to search for
+target="*.hansel/tags/${tag}"
+for path in $(find ${root} -path ${target}); do
+    echo $(dirname $(dirname $(dirname $path)))
+done
