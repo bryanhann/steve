@@ -1,1 +1,4 @@
-repos
+__repos__
+hide*
+*.hide
+packages
