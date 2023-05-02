@@ -1,6 +1,0 @@
-# Insure that bch.history has been properly clones
-[ -d ${STEVE}/bch.history ] || {
-    echo bch history is missing. cloning now.
-    git clone ${STEVE_GITHUB}/bch.history ${STEVE}/bch/bch.history.repo
-}
-
