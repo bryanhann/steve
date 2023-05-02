@@ -2,15 +2,11 @@
 from pathlib import Path
 STEVE=Path(__file__).absolute().parent
 
-#if not STEVE==Path.home()/'.__STEVE__':
-#    print( 'can install only to ~/.__STEVE__' )
-#    exit()
-
 MAGIC='#magic_python_98745'
 
 def fix(name):
     target=Path.home()/name
-    proxy=STEVE/('.dots/dot%s' % name)
+    proxy=STEVE/('dots/dot%s' % name)
     target.touch()
     proxy.touch()
 

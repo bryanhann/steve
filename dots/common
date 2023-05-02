@@ -6,7 +6,7 @@
 [ "${STEVE_FIRST}" == "" ] && {
     echo initializing STEVE
     export STEVE_FIRST=1
-    export STEVE_BIN=${STEVE}/.bin
+    export STEVE_BIN=${STEVE}/bin
     export PATH=${PATH}:${STEVE_BIN}
 }
 
