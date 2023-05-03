@@ -12,7 +12,6 @@ steve.config.clone vim
 . steve.hansel!add-bins-to-path
 . steve.path!clean
 
-source bh.monty.activate
-
-alias .z="bh.bch.jot new"
+source bh.monty!activate
+source bh.bch!activate
 
