@@ -1,0 +1,6 @@
+#/bin/sh
+
+export STEVE_DST=${STEVE}/__REPOS__
+export STEVE_CFG=${HOME}/.config
+export STEVE_SRC=git@github.com:bryanhann
+

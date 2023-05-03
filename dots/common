@@ -1,52 +1,18 @@
 #/bin/sh
+export PATH=${PATH}:${STEVE}/bin
 
-########################################################
-# FIRST MAKE SURE the 'steve' command is on the PATH
+. steve!globals
 
-[ "${STEVE_FIRST}" == "" ] && {
-    echo initializing STEVE
-    export STEVE_FIRST=1
-    export STEVE_BIN=${STEVE}/bin
-    export PATH=${PATH}:${STEVE_BIN}
-}
+steve.package.clone blessed.zjot  -b steve
+steve.package.clone blessed.monty -b steve
+steve.package.clone blessed.bch   -b steve
 
-########################################################
-# DEFINE SOME HELPER FUNCTSIONS
+steve.config.clone vim
 
- 
-_clone_package () { _clone ${STEVE}/__repos__/$1 git@github.com:bryanhann/$*; }
-_clone_config ()  { _clone ${HOME}/.config/$1   git@github.com:bryanhann/.config.$*; }
-_clone () {
-    [ -d $1 ] && echo "Aleady cloned to $1" && return
-    local dst=$1
-    shift
-    git clone $* $dst
-}
-
-########################################################
-# CLONE PACKAGES AND CONFIGS
-
-_clone_package BRYAN.history 	
-_clone_package lbin.bch.hansel 	
-_clone_package blessed.zjot 	-b steve
-_clone_package blessed.monty 	-b steve
-_clone_package blessed.bch      -b steve
-_clone_config vim
-
-
-########################################################
-# ADD PACKAGE BINS TO PATH
-
-for base in $( steve.hansel.bases4root4tag $STEVE has-bin ); do
-    export PATH=$PATH:$base/bin
-    #eval `steve.path --export add $base/bin`
-done
-export PATH=$(steve.path clean)
-
-
-########################################################
-# MAKE THE ENVIRONMENT NICER
+. steve.hansel!add-bins-to-path
+. steve.path!clean
 
 source bh.monty.activate
+
 alias .z="bh.bch.jot new"
 

@@ -1,0 +1,5 @@
+#/bin/sh
+[ -d $1 ] && echo "Aleady cloned to $1" && exit
+dst=$1
+shift
+git clone $* $dst
