@@ -1,17 +1,17 @@
 #/bin/sh
 export PATH=${PATH}:${STEVE}/bin
 
-. steve!globals
+. steve globals
 
-steve.package.clone blessed.zjot  -b steve
-steve.package.clone blessed.monty -b steve
-steve.package.clone blessed.bch   -b steve
+steve package.clone blessed.zjot  -b steve
+steve package.clone blessed.monty -b steve
+steve package.clone blessed.bch   -b steve
 
-steve.config.clone vim
+steve config.clone vim
 
-. steve.hansel!add-bins-to-path
-. steve.path!clean
+. steve hansel.add-bins-to-path
+. steve path.clean
 
-source bh.monty!activate
-source bh.bch!activate
+. bh.monty activate
+. bh.bch   activate
 

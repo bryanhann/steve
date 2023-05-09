@@ -1,0 +1,2 @@
+#/bin/sh
+steve clone4dst4src ${STEVE_DST}/$1 ${STEVE_SRC}/$*
