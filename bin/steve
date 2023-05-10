@@ -3,7 +3,6 @@ _export __STEVE_HELP	${STEVE}/bin/steve.d/help
 _export __STEVE_NAME	$1
 shift
 
-[ "${__STEVE_NAME} =="" ] && {
 
 [ "${0:0:1}" == "/" ] && {
     _export __STEVE_MODE
