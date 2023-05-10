@@ -7,6 +7,7 @@ export PATH=${PATH}:${HOME}/.local/bin
 steve package.clone blessed.zjot  -b steve
 steve package.clone blessed.monty -b steve
 steve package.clone blessed.bch   -b steve
+steve package.clone steve.bch-prefs
 
 steve config.clone vim
 
