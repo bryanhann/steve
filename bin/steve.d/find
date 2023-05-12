@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+
+import argparse
+from pathlib import Path
+
+parser = argparse.ArgumentParser(
+    prog="steve find"
+    , description="A peculiar replacement for bash's 'find'."
+    , allow_abbrev=False
+)
+
+parser.add_argument(
+    '--base'
+    , action='store_true'
+)
+parser.add_argument(
+    '--suffix'
+    , type=str
+    , required=False
+    , default=''
+    , help="required suffix (default: '')"
+)
+parser.add_argument(
+    '--maxdepth'
+    , type=int
+    , required=False
+    , default=-1
+    , help="maximum depth to search. Default: unlimited"
+)
+parser.add_argument(
+    '--root'
+    , type=Path
+    , required=True
+    , help="root folder of search"
+)
+
+ARGS  = parser.parse_args()
+
+def walk(folder, depth):
+    for path in folder.glob('*'): 
+        yield path
+        if path.is_dir() and not depth==0:
+            yield from walk(path, depth-1)
+
+def validate():
+    if ARGS.base and not ARGS.suffix.startswith('/'):
+        print("--base option requires --suffix value start with '/'" )
+        exit(-1)
+
+def main():
+    validate() 
+    suffix=ARGS.suffix
+    chop=len(suffix)
+    paths=walk( ARGS.root, depth=ARGS.maxdepth )
+    for path in paths:
+        path=str(path)
+        if not path.endswith(suffix):
+            continue
+        if ARGS.base:
+            path=path[:-chop]
+        print(path)
+if __name__=='__main__':
+    main()

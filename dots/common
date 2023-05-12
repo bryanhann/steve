@@ -1,4 +1,4 @@
-#/bin/sh
+#/bin/bash
 export PATH=${PATH}:${STEVE}/bin
 export PATH=${PATH}:${HOME}/.local/bin
 
@@ -8,8 +8,9 @@ steve package.clone blessed.zjot  -b steve
 steve package.clone blessed.monty -b steve
 steve package.clone blessed.bch   -b steve
 steve package.clone steve.bch-prefs
+steve package.clone steve.config.vim -b steve
 
-steve config.clone vim
+steve repos.install
 
 . steve hansel.add-bins-to-path
 . steve path.clean
