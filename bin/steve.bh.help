@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+import sys
+from pathlib import Path
+
+THIS=Path(__file__).absolute()
+
+def usage(TARGET=None):
+    print(f"[{THIS.name}]:\n    Help system for bh.commands.  ")
+    if TARGET:
+        print(f"    First argument must be a file.")
+        print(f"    (Received: '{TARGET}')")
+        exit(2)
+    exit(0)
+def doclines(path,key='doc'):
+    """(file,key) -> list of doclines from specified file
+
+    Doclines are lines that begin with the provided
+    key prefis (ignoring whitespace. The key is stripped
+    from the returned lines.
+
+    If no lines are found, return the singleton list:
+        [ "(undocumented)" ]
+    """
+    prefix="#" + key
+    undocumented = ['(undocumented)']
+    lines=path.read_text().split('\n')
+    lines=[ line.strip() for line in lines  ]
+    lines=[ line for line in lines if line.startswith( prefix ) ]
+    lines=[ line[len(prefix)+1:] for line in lines ]
+    return lines or undocumented
+
+
+def main(target,short=False):
+    NAME=target.name
+    HERE=target.parent
+    for subpath in HERE.glob( f"{NAME}*" ):
+        name=subpath.name
+        lines=doclines(subpath)
+        if short:
+            print( f"{bold(name)} -- {lines[0]}" )
+        else:
+            print( f"{bold(name)}" )
+            for line in lines:
+                print(f"    {line}")
+
+def bold(text):
+    return "\033[1m" + text + "\033[0m"
+
+
+def __print_desc(target):
+    for line in doclines(target, 'desc'):
+        print( f"    {line}" )
+def __print_title(target):
+    title=f"The [{target.name}] commmand suite"
+    print( f"{bold(title)}" )
+
+def __print_forhelp(target):
+    NAME=target.name
+    print()
+    print( f"For help, try '{NAME} --help'" )
+    print( f"For more help, try '{NAME} --longhelp'" )
+
+if __name__=="__main__":
+    ARGS=sys.argv[1:] + ['']*5
+    if ARGS[0] in ['', 'help', '--help', '-h']:
+        usage()
+        exit(1)
+    TARGET=Path( ARGS.pop(0) )
+
+    if not TARGET.is_file():
+        usage(TARGET)
+        exit(2)
+    __print_title(TARGET)
+    __print_desc(TARGET)
+    #NAME=TARGET.name
+    #HERE=TARGET.parent
+    if ARGS[0]=='--help': main(TARGET,short=True)
+    elif ARGS[0]=='--longhelp': main(TARGET,short=False)
+    else: __print_forhelp(TARGET)
