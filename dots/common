@@ -1,11 +1,15 @@
 #!/bin/bash
 export PATH=${PATH}:${STEVE}/bin
+
 . steve.sys:globals
   steve.sys.clone-manifest
 . steve.sys:add-packages
+. steve.sys:install-bryan
 
 . bh.bch:activate
 . bh.monty:activate
   bh.vim.configure
+
 . steve.path:add ${HOME}/.local/bin
 . steve.path:clean
+
