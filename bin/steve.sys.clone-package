@@ -1,0 +1,14 @@
+#!/bin/bash
+__clone4dst4src () {
+    [ -d $1 ] && echo "Aleady cloned to $1" && return
+    dst=$1
+    shift
+    git clone $* $dst
+}
+
+__repo_clone ()  {
+    __clone4dst4src ${STEVE_DST}/$1 ${STEVE_SRC}/$*
+}
+
+
+__repo_clone $*

@@ -1,0 +1,7 @@
+echo THE FOLLOWING HAVE MODIFICATIONS:
+for base in $(ls ${STEVE_DST} ); do
+    path=${STEVE_DST}/${base}
+    pushd $path > /dev/null
+    [[ $(git status  -s) ]] && echo $base
+    popd > /dev/null
+done

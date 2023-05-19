@@ -1,5 +1,0 @@
-#/bin/sh
-for base in $( steve hansel.bases4root4tag $STEVE has-bin ); do
-    export PATH=$PATH:$base/bin
-done
-export PATH=$(steve path clean)

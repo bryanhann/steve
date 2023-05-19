@@ -2,10 +2,12 @@
 import os
 import sys
 import argparse
+from pathlib import Path
+PROG=Path(__file__).name
 
 USAGE="""\
 USAGE:
-    steve.path [--export] SUBCOMMAND
+    steve.path [--eval] SUBCOMMAND
 
 SUBCOMMANDS:
     help            - this help
@@ -15,24 +17,30 @@ SUBCOMMANDS:
     remove [args*]  - echo a PATH with [args*] removed
 
 OPTIONS:
-    --export
+    --eval
         Prepend 'export PATH=' when echoing a PATH.
         Useful for callers who wish to evaluate the output
         to change the PATH in their current environment.
 
+        Only compatable with subcommands that echo a PATH.
+
         E.g.:
-            $ eval `steve.path --export add foo bar`
+            $ eval `steve.path --eval add foo bar`
             This should add components 'foo' and 'bar'to the
             caller's PATH variable.
 """
 
 parser=argparse.ArgumentParser()
 parser.add_argument( 'cmd', nargs='*' )
-parser.add_argument( '--export', action='store_true')
+parser.add_argument( '--eval', action='store_true')
 
 ARGS = parser.parse_args()
-
 PARTS = os.environ['PATH'].split(':')
+NAME = ARGS.cmd and ARGS.cmd[0] or None
+
+def die(text):
+    sys.stderr.write(f"{PROG}: {text}\n")
+    exit(99)
 
 def main():
     try: cmd=eval('cmd_' + ARGS.cmd.pop(0) )
@@ -44,9 +52,8 @@ def main():
 def nodups(parts):
     clean = []
     for part in parts:
-        if part in clean:
-            continue
-        clean.append(part)
+        if not part in clean:
+            clean.append(part)
     return clean
 
 
@@ -56,15 +63,21 @@ def echo(parts):
     Join the parts with a colon. Prefix the 
     path with the EXPORT string
     """
-    EXPORT = ARGS.export and "export PATH=" or ""
-    print( EXPORT + ':'.join( parts ))
+    newpath=':'.join(parts)
+    if ARGS.eval:
+        print( "export PATH=" + newpath )
+    else:
+        print( newpath )
 
 # FUNCTIONS INVOKED AS SUBCOMMANDS
 
 def cmd_help(*args):
+    """Print this help"""
+    ARGS.eval and die(f"command '{NAME}' is incompatable with --eval option.")
     print(USAGE)
 
 def cmd_list(*args):
+    ARGS.eval and die(f"command '{NAME}' is incompatable with --eval option.")
     list(map(print,PARTS))
 
 def cmd_clean(*args): 
@@ -76,6 +89,9 @@ def cmd_remove(*args):
 def cmd_add(*args):
     echo( PARTS + [arg for arg in args if not arg in PARTS] )
 
+def usage ():
+    print( USAGE )
 
 if __name__=='__main__':
     main()
+    #usage()

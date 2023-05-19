@@ -1,0 +1,19 @@
+#!/bin/bash
+__repos() {
+    local repo
+    for repo in $(ls ${STEVE_DST}); do
+        echo ${STEVE_DST}/${repo}
+    done
+}
+
+__install_repos () {
+    local repo
+    local bin
+    for repo in $(__repos); do
+        bin=${repo}/bin
+        [ -d ${bin} ] || continue
+        export PATH=${PATH}:${bin}
+    done
+}
+
+__install_repos

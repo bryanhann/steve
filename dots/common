@@ -1,20 +1,11 @@
-#/bin/bash
+#!/bin/bash
 export PATH=${PATH}:${STEVE}/bin
-export PATH=${PATH}:${HOME}/.local/bin
+. steve.sys:globals
+  steve.sys.clone-manifest
+. steve.sys:add-packages
 
-. steve globals
+. bh.bch:activate
+. bh.monty:activate
 
-steve package.clone blessed.zjot  -b steve
-steve package.clone blessed.monty -b steve
-steve package.clone blessed.bch   -b steve
-steve package.clone steve.bch-prefs
-steve package.clone steve.config.vim -b steve
-
-steve repos.install
-
-. steve hansel.add-bins-to-path
-. steve path.clean
-
-source $(bh.monty --source)
-. bh.bch   activate
-
+. steve.path:add ${HOME}/.local/bin
+. steve.path:clean
