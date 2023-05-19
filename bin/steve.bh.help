@@ -1,16 +1,26 @@
 #!/usr/bin/env python3
+
 import sys
+import textwrap
 from pathlib import Path
 
-THIS=Path(__file__).absolute()
+PAD=' '*4
 
-def usage(TARGET=None):
-    print(f"[{THIS.name}]:\n    Help system for bh.commands.  ")
-    if TARGET:
-        print(f"    First argument must be a file.")
-        print(f"    (Received: '{TARGET}')")
+def indent(text):
+    return textwrap.indent(text, PAD)
+
+def bold(text):
+    return "\033[1m" + text + "\033[0m"
+
+def usage(name):
+    THIS=Path(__file__).absolute()
+    print(f"[{THIS.name}]:\n{PAD}Help system for bh.commands.  ")
+    if name and not name in '-h --help help'.split():
+        print(f"{PAD}First argument must be a file.")
+        print(f"{PAD}(Received: '{name}')")
         exit(2)
     exit(0)
+
 def doclines(path,key='doc'):
     """(file,key) -> list of doclines from specified file
 
@@ -29,51 +39,45 @@ def doclines(path,key='doc'):
     lines=[ line[len(prefix)+1:] for line in lines ]
     return lines or undocumented
 
+def desc(path):
+    return '\n'.join(doclines(path, 'desc'))
 
-def main(target,short=False):
-    NAME=target.name
-    HERE=target.parent
-    for subpath in HERE.glob( f"{NAME}*" ):
-        name=subpath.name
-        lines=doclines(subpath)
-        if short:
-            print( f"{bold(name)} -- {lines[0]}" )
-        else:
-            print( f"{bold(name)}" )
-            for line in lines:
-                print(f"    {line}")
+def shortdoc(path):
+    return doclines(path)[0]
 
-def bold(text):
-    return "\033[1m" + text + "\033[0m"
+def longdoc(path):
+    return indent( '\n'.join(doclines(path) ))
 
+def shorthelp():
+    for subpath in CMD_HERE.glob( f"{CMD_NAME}*" ):
+        print( f"{bold(subpath.name)} -- {shortdoc(subpath)}" )
 
-def __print_desc(target):
-    for line in doclines(target, 'desc'):
-        print( f"    {line}" )
-def __print_title(target):
-    title=f"The [{target.name}] commmand suite"
-    print( f"{bold(title)}" )
-
-def __print_forhelp(target):
-    NAME=target.name
-    print()
-    print( f"For help, try '{NAME} --help'" )
-    print( f"For more help, try '{NAME} --longhelp'" )
+def longhelp():
+    for subpath in CMD_HERE.glob( f"{CMD_NAME}*" ):
+        print( f"{bold(subpath.name)}" )
+        print( longdoc(subpath) )
 
 if __name__=="__main__":
-    ARGS=sys.argv[1:] + ['']*5
-    if ARGS[0] in ['', 'help', '--help', '-h']:
-        usage()
-        exit(1)
-    TARGET=Path( ARGS.pop(0) )
+    ARGS = sys.argv[1:] + ['']*5
+    PATH = ARGS.pop(0)
+    FLAG = ARGS.pop(0)
 
-    if not TARGET.is_file():
-        usage(TARGET)
-        exit(2)
-    __print_title(TARGET)
-    __print_desc(TARGET)
-    #NAME=TARGET.name
-    #HERE=TARGET.parent
-    if ARGS[0]=='--help': main(TARGET,short=True)
-    elif ARGS[0]=='--longhelp': main(TARGET,short=False)
-    else: __print_forhelp(TARGET)
+    if not Path(PATH).is_file():
+        exit( usage(PATH) )
+
+    CMD_PATH = Path(PATH)
+    CMD_NAME = CMD_PATH.name
+    CMD_HERE = CMD_PATH.parent
+    CMD_TITLE = f"The [{CMD_NAME}] commmand suite"
+    SUB_PATHS = list(CMD_HERE.glob( f"{CMD_NAME}*" ))
+
+    print( f"{bold(CMD_TITLE)}" )
+    print( indent(desc(CMD_PATH)) )
+    print()
+    if FLAG=='--help':
+        shorthelp()
+    if FLAG=='--longhelp':
+        longhelp()
+    print()
+    print( f"For help, try '{CMD_NAME} --help'" )
+    print( f"For more help, try '{CMD_NAME} --longhelp'" )
