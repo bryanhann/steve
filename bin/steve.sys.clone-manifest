@@ -1,5 +1,5 @@
 #!/bin/bash
-steve.sys.clone-package blessed.zjot  -b steve
-steve.sys.clone-package blessed.monty -b steve
-steve.sys.clone-package blessed.bch   -b steve
-steve.sys.clone-package steve.config.vim -b steve
+steve.sys.clone-package steve.bh.zjot  -b steve
+steve.sys.clone-package steve.bh.monty -b steve
+steve.sys.clone-package steve.bh.bch   -b steve
+steve.sys.clone-package steve.bh.vim   -b steve
