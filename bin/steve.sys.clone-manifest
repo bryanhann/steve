@@ -4,3 +4,4 @@ steve.sys.clone-package steve.bh.monty -b steve
 steve.sys.clone-package steve.bh.bch   -b steve
 steve.sys.clone-package steve.bh.vim   -b steve
 steve.sys.clone-package steve.bh.deedoo
+steve.sys.clone-package steve.bh.vjot  -b steve
