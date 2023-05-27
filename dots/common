@@ -1,5 +1,10 @@
 #!/bin/bash
-export PATH=${PATH}:${STEVE}/bin
+[ -z "${STEVE_FIRST}" ] && {
+    export STEVE_FIRST=1
+    export PATH=${PATH}:${STEVE}/bin
+    export PYTHONPATH=${STEVE}/lib
+}
+
 
 . steve.sys:globals
   steve.sys.clone-manifest
