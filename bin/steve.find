@@ -2,6 +2,7 @@
 
 import argparse
 from pathlib import Path
+import _steve.fn as FN
 
 parser = argparse.ArgumentParser(
     prog="steve find"
@@ -36,12 +37,6 @@ parser.add_argument(
 
 ARGS  = parser.parse_args()
 
-def walk(folder, depth):
-    for path in folder.glob('*'): 
-        yield path
-        if path.is_dir() and not depth==0:
-            yield from walk(path, depth-1)
-
 def validate():
     if ARGS.base and not ARGS.suffix.startswith('/'):
         print("--base option requires --suffix value start with '/'" )
@@ -51,7 +46,7 @@ def main():
     validate() 
     suffix=ARGS.suffix
     chop=len(suffix)
-    paths=walk( ARGS.root, depth=ARGS.maxdepth )
+    paths=FN.walk( ARGS.root, depth=ARGS.maxdepth )
     for path in paths:
         path=str(path)
         if not path.endswith(suffix):
@@ -59,5 +54,6 @@ def main():
         if ARGS.base:
             path=path[:-chop]
         print(path)
+
 if __name__=='__main__':
     main()
