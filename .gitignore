@@ -1,4 +1,5 @@
 __*__
+.REPOS
 hide*
 *.hide
 *.pyc
