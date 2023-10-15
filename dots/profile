@@ -2,8 +2,8 @@
 echo ++[. profile]
 export STEVE=$(dirname $(dirname $(readlink ~/.profile)))
 export PATH=${PATH}:~/.local/bin
-. ${STEVE}/dots/profile.exit_trap
-. ${STEVE}/dots/profile.steve
+. ${STEVE}/dots/exit_trap.profile
+. ${STEVE}/dots/steve.profile
 . ~/.profile.errata
 . ~/.bashrc
 echo --[. profile]
