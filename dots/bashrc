@@ -1,3 +1,4 @@
 echo ++[. bashrc]
-. ${DOTS}/steve.bashrc
+[ -f ~/NO.STEVE ] && . busy bashrc
+[ -f ~/NO.STEVE ] || . ${DOTS}/steve.bashrc
 echo --[. bashrc]

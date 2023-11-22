@@ -1,9 +1,0 @@
-#!/bin/bash
-main () {
-    local SRC=git@github.com:bryanhann/BRYAN
-    local DST=${HOME}/.BRYAN
-    [ ! -d ${DST} ] && git clone $SRC $DST
-    eval $(${DST}/install --eval)
-}
-main
-
